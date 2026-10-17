@@ -1,0 +1,21 @@
+cd ~/proc_dec
+
+# Build
+gcc zombie.c -o zombie
+gcc orphan.c -o orphan
+gcc -Wall detector.c -o detector
+
+# Start the zombie and orphan test programs
+./zombie &
+./orphan
+sleep 3
+
+# Run the detector
+./detector
+
+# Verify with built-in tools (take screenshots of these)
+ps -eo pid,ppid,stat,comm | grep -E 'zombie|orphan'
+pstree -p | grep -E 'zombie|orphan'
+
+# Cleanup
+pkill zombie; pkill orphan
